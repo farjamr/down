@@ -1,0 +1,11 @@
+--- local.conf	2018-03-20 12:42:21.504451475 -0500
++++ local1.conf	2018-03-21 14:17:46.000000000 -0500
+@@ -3,7 +3,7 @@
+ stratumproxy enabled
+ custompanel phfarmphfarm
+ 
+-#cor 113-58085SHD1-M80 1300
++cor 113-58085SHD1-M80 1300
+ 
+ globalfan 92
+ lockscreen enabled
