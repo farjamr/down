@@ -1,0 +1,12 @@
+--- local.conf	2018-03-21 15:42:34.278655848 -0500
++++ local.conf	2018-03-22 02:06:09.000000000 -0500
+@@ -4,6 +4,9 @@
+ custompanel phfarmphfarm
+ 
+ cor 113-58085SHD1-M80 1300
++cor 113-58085STD1-M80 1300
++cor 113-58085STD1-W90 1300
++cor 113-58085SHD1-W90 1300
+ 
+ globalfan 92
+ lockscreen enabled
