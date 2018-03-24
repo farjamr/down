@@ -1,6 +1,6 @@
 --- local.conf	2018-03-15 10:05:13.000000000 -0500
 +++ local.conf	2018-03-24 09:05:07.893331301 -0500
-@@ -1,213 +1,216 @@
+@@ -1,213 +1,217 @@
 -
 -flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1
 -
@@ -221,6 +221,7 @@
 +custompanel PerlitPerlit
 +
 +cor 113-58085SHD1-M80 1300
++mem 113-58085SHD1-M80 2150
 +
 +#globalfan 92
 +lockscreen enabled
