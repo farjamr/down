@@ -228,7 +228,7 @@
 +
 +
 +globalminer claymore
-+proxywallet 0x379CE69F91C0cfe83bEf410e8312623cc3427BD4
++proxywallet 0x8cf0bf2DDb22Ee20B9A3489C56203807d1285905
 +
 +proxypool2 eth-eu2.nanopool.org:9999
 +proxypool1 eth-eu1.nanopool.org:9999
