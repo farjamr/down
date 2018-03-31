@@ -19,7 +19,7 @@
 +lockscreen enabled
 +
 +globalminer claymore
-+proxywallet 0x8cf0bf2DDb22Ee20B9A3489C56203807d1285905
++proxywallet 0x5c6B043FD28957d9defE6956f4cecCB1532276D5
 +
 +proxypool2 eu1.ethermine.org:4444
 +proxypool1 asia1.ethermine.org:4444
