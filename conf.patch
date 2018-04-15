@@ -11,7 +11,7 @@
 -proxypool2 pool-eu.ethosdistro.com:5001
 -flags --cl-global-work 8192 --farm-recheck 200
 -globalfan 85
-+custompanel PerlitPerlit
++custompanel farjam000001
 +
 +#cor 113-58085SHD1-M80 1300
 +
