@@ -3,7 +3,7 @@
 @@ -1,10 +1,22 @@
 -maxgputemp 85
 +
-+flags -colors 1 -tt 50 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1
++flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1 -mode 1 -asm 2 -etha 2 -oldkernels 1
 +
  stratumproxy enabled
 -proxywallet 0x0bdC4F12fB57d3acA9C3cF72B7AA2789A20d27f2
@@ -11,12 +11,12 @@
 -proxypool2 pool-eu.ethosdistro.com:5001
 -flags --cl-global-work 8192 --farm-recheck 200
 -globalfan 85
-+custompanel farjam000001
-+
-+#cor 113-58085SHD1-M80 1300
++custompanel jnsnowjnsnow
++cor 113-57085SHB2-W90 1300
++mem 113-57085SHB2-W90 1950
 +
 +#globalfan 92
-+lockscreen enabled
++#lockscreen enabled
 +
 +globalminer claymore
 +proxywallet 0x5c6B043FD28957d9defE6956f4cecCB1532276D5
