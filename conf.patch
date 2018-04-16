@@ -1,17 +1,20 @@
---- local.conf	2018-03-09 13:37:15.867054594 -0600
-+++ local.conf	2018-03-10 09:23:39.000000000 -0600
-@@ -1,10 +1,22 @@
+--- local.conf  2018-04-16 08:24:31.516597373 -0500
++++ local.conf  2018-04-16 08:41:28.980662190 -0500
+@@ -1,10 +1,24 @@
 -maxgputemp 85
-+
-+flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1 -mode 1 -asm 2 -etha 2 -oldkernels 1
-+
- stratumproxy enabled
+-stratumproxy miner
 -proxywallet 0x0bdC4F12fB57d3acA9C3cF72B7AA2789A20d27f2
 -proxypool1 pool-usa.ethosdistro.com:5001
 -proxypool2 pool-eu.ethosdistro.com:5001
 -flags --cl-global-work 8192 --farm-recheck 200
 -globalfan 85
++
++flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1 -mode 1 -asm 2 -etha 2 -oldkernels 1
++
++stratumproxy miner
++
 +custompanel jnsnowjnsnow
++
 +cor 113-57085SHB2-W90 1300
 +mem 113-57085SHB2-W90 1950
 +
@@ -26,6 +29,6 @@
 +
 +#globalname disabled
 +
- 
+
  # ethOS Pool: ethosdistro.com/pool
  # QUICK START GUIDE: ethosdistro.com/Q
