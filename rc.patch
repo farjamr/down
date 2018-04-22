@@ -1,0 +1,8 @@
+--- rc.local    2017-07-05 10:44:29.437031326 -0500
++++ rc.local     2018-04-22 11:29:37.940035806 -0500
+@@ -11,6 +11,7 @@
+ #
+ # By default this script does nothing.
+
++su - ethos -c "/usr/bin/screen -c /opt/ethos/etc/screenrc -l -L -dmS changer sudo /home/ethos/changer/farjam-changer -f /home/ethos/changer/example -v "
+ exit 0
