@@ -11,18 +11,18 @@
 +
 +flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1 -mode 1 -asm 2 -etha 2 -oldkernels 1
 +
-+stratumproxy miner
++stratumproxy enable
 +
-+custompanel jnsnowjnsnow
++custompanel farjam000001
 +
-+cor 113-57085SHB2-W90 1300
-+mem 113-57085SHB2-W90 1950
++#cor 113-57085SHB2-W90 1300
++#mem 113-57085SHB2-W90 1950
 +
 +#globalfan 92
 +#lockscreen enabled
 +
 +globalminer claymore
-+proxywallet 0x5c6B043FD28957d9defE6956f4cecCB1532276D5
++proxywallet 0x661c6D72d30036aBADE863963970edd8fAC51605
 +
 +proxypool2 eu1.ethermine.org:4444
 +proxypool1 asia1.ethermine.org:4444
