@@ -11,7 +11,7 @@
 +
 +flags -colors 1 -tt 50 -tstart 65 -tstop 85 -ttli 75 -r 1 -wd 1 -gser 1 -mode 1 -asm 2 -etha 2 -oldkernels 1
 +
-+stratumproxy miner
++stratumproxy enable
 +
 +custompanel jnsnowjnsnow
 +
