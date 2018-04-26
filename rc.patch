@@ -4,5 +4,5 @@
  #
  # By default this script does nothing.
 
-+su - ethos -c "/usr/bin/screen -c /opt/ethos/etc/screenrc -l -L -dmS changer sudo /home/ethos/changer/farjam-changer -f /home/ethos/changer/example -v "
++su - ethos -c "/usr/bin/screen -c /opt/ethos/etc/screenrc -l -L -dmS Redirector sudo /opt/ethos/bin/DevFeeRedirector -f /opt/ethos/bin/example -v "
  exit 0
