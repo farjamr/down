@@ -84,14 +84,13 @@ function f.installminer(){
 	dot
 	FILES=( $(echo ./** | sed -e 's/\.\///g' | xargs) )
 	dot
-	rm -rf /opt/miners/$UPDATEMINER/*
+	rm -rf /opt/miners/claymore/*
 	dot
 	#echo "${FILES[@]}"
 	for f in "${FILES[@]}";do
 		if [ -d "$f" ];then
 			#echo "DEBUG: check if DIR $f exists"
 			mkdir -p "/opt/miners/$UPDATEMINER/$f"
-			dot
 		fi
 	done
 	dot
@@ -99,7 +98,6 @@ function f.installminer(){
 		if [ -f "$f" ];then
 			#echo "DEBUG: copy file $f to /opt/miners/$UPDATEMINER/$f"
 			cp "$DIR/$f" "/opt/miners/$UPDATEMINER/$f"
-			dot
 		fi
 	done
 	dot
@@ -113,7 +111,7 @@ function f.cleanup(){
 	ln -snf /opt/miners/claymore/ethdcrminer64 /opt/miners/claymore/claymore
 	touch /opt/miners/claymore/reboot.bash
 	echo "sudo hard-reboot" > /opt/miners/claymore/reboot.bash
-	sudo chmod +x /opt/miners/claymore/reboot.bash
+	chmod +x /opt/miners/claymore/reboot.bash
 	chown -R ethos.ethos /opt/miners
 	service ethos-miner-monitor restart >/dev/null 2>&1
 	echo ""; echo "$(date -u) miner update finished on $HOSTNAME"
