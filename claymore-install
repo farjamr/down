@@ -74,13 +74,18 @@ function f.installminer(){
 		fi
 		/opt/ethos/bin/minestop >/dev/null 2>&1
 	fi
+	dot
 	shopt -s dotglob;shopt -s globstar
+	dot
 	DIR=$(echo /tmp/extract/* | xargs -0 )
+	dot
 	#echo "$DIR"
 	cd "$DIR"
+	dot
 	FILES=( $(echo ./** | sed -e 's/\.\///g' | xargs) )
-
+	dot
 	rm -rf "/opt/miners/$UPDATEMINER/*"
+	dot
 	#echo "${FILES[@]}"
 	for f in "${FILES[@]}";do
 		if [ -d "$f" ];then
@@ -89,6 +94,7 @@ function f.installminer(){
 			dot
 		fi
 	done
+	dot
 	for f in "${FILES[@]}";do
 		if [ -f "$f" ];then
 			#echo "DEBUG: copy file $f to /opt/miners/$UPDATEMINER/$f"
@@ -96,6 +102,7 @@ function f.installminer(){
 			dot
 		fi
 	done
+	dot
 	rm -rf /tmp/extract/*
 }
 
