@@ -110,14 +110,11 @@ function f.cleanup(){
 	if [ "$RESETALLOW" = "1" ]; then
 		/opt/ethos/bin/allow >/dev/null 2>&1
 	fi
-	if [ ! -L /opt/miners/optiminer-zcash/optminer-zcash ]; then
-		ln -snf /opt/miners/optiminer-zcash/optiminer-equihash /opt/miners/optiminer-zcash/optiminer-zcash
-	fi
-	dot
+	ln -snf /opt/miners/claymore/ethdcrminer64 /opt/miners/claymore/claymore
+	touch /opt/miners/claymore/reboot.bash
+	echo "sudo hard-reboot" > /opt/miners/claymore/reboot.bash
+	sudo chmod +x /opt/miners/claymore/reboot.bash
 	chown -R ethos.ethos /opt/miners
-	if [ -f "/opt/miners/$UPDATEMINER/ethos-postinstall.sh" ]; then
-		/opt/miners/$UPDATEMINER/ethos-postinstall.sh
-	fi
 	service ethos-miner-monitor restart >/dev/null 2>&1
 	echo ""; echo "$(date -u) miner update finished on $HOSTNAME"
 }
