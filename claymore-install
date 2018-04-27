@@ -1,0 +1,147 @@
+#!/bin/bash
+
+
+if [[ "$EUID" -ne "0" ]]; then
+	echo "This script must be run as root, please rerun as \"sudo claymore-install xx.xx \"" 
+	exit 1
+fi
+
+
+
+MINERVERSION="$1"
+UPDATEMINER="claymore"
+MINER=$(/opt/ethos/sbin/ethos-readconf miner)
+
+MIRROR1=$(getent hosts update.ethosdistro.com | cut -d " " -f 1)
+#echo "MIRROR1 Resolves to: $MIRROR1"
+MIRROR2=$(getent hosts update2.ethosdistro.com | cut -d " " -f 1)
+#echo "MIRROR2 Resolves to: $MIRROR2"
+
+function dot(){
+	echo -n "."
+}
+
+
+function f.mirrorselect.randomize() {
+	if [ "$(( RANDOM % 2 ))" -eq "0" ];then
+		#echo "Using update server: $MIRROR1"
+		SERVER="http://$MIRROR1"
+	else
+		#echo "Using update server: $MIRROR2"
+		SERVER="http://$MIRROR2"
+	fi
+}
+
+
+function f.mirrorselect(){
+	SERVERSTATUS1=$(curl -s -o /dev/stderr -w "%{http_code}" "http://$MIRROR1/status/" 2>/dev/null)
+	SERVERSTATUS2=$(curl -s -o /dev/stderr -w "%{http_code}" "http://$MIRROR2/status/" 2>/dev/null)
+	SERVERSTATUS3=$(curl -s -o /dev/stderr -w "%{http_code}" "http://162.243.39.238/status/" 2>/dev/null)
+	S1AVAILABLE=$(curl -f -s -S -k http://"$MIRROR1"/status/ 2>/dev/null)
+	#echo "Server Status:"
+	#echo "Update Server 1: $S1AVAILABLE"
+	S2AVAILABLE=$(curl -f -s -S -k http://"$MIRROR2"/status/ 2>/dev/null)
+	#echo "Update Server 2: $S2AVAILABLE"
+	S3AVAILABLE=$(curl -f -s -S -k http://162.243.39.238/status/ 2>/dev/null)
+	#echo "Update Server 3: $S3AVAILABLE"
+
+	if [ "$S1AVAILABLE" = "maintenance" ] && [ "$S2AVAILABLE" = "maintenance" ] && [ "$S3AVAILABLE" = "maintenance" ];then
+		echo "Update servers are temporarily unavailable due to maintenance.  Please try again later."
+		exit 1
+  	fi
+	if [ "$SERVERSTATUS1" -ne "200" ] && [ "$SERVERSTATUS2" -ne "200" ] && [ "$SERVERSTATUS3" -ne "200" ];then
+		echo "Update servers are unreachable. Please check your network connection, or try again later."
+		exit 1
+	fi
+	if [ "$SERVERSTATUS1" = "200" ] && [ "$SERVERSTATUS2" = "200" ] && [ "$S1AVAILABLE" = "online" ] && [ "$S2AVAILABLE" = "online" ];then
+		f.mirrorselect.randomize
+	elif [ "$SERVERSTATUS1" = "200" ] && [ "$S1AVAILABLE" = "online" ];then
+		SERVER="http://$MIRROR1"
+	elif [ "$SERVERSTATUS2" = "200" ] && [ "$S2AVAILABLE" = "online" ];then
+		SERVER="http://$MIRROR2"
+	elif [ "$SERVERSTATUS3" = "200" ] && [ "$S3AVAILABLE" = "online" ] && [ "$SERVERSTATUS1" -ne "200" ] && [ "$SERVERSTATUS2" -ne "200" ];then
+		SERVER="http://162.243.39.238"
+  	fi
+}
+
+
+function f.installminer(){
+	if [ "$MINER" = "$UPDATEMINER" ];then
+		ALLOWED=$(cat /opt/ethos/etc/allow.file)
+		if [ "$ALLOWED" = "1" ];then
+			/opt/ethos/bin/disallow >/dev/null 2>&1
+			RESETALLOW="1"
+		fi
+		/opt/ethos/bin/minestop >/dev/null 2>&1
+	fi
+	shopt -s dotglob;shopt -s globstar
+	DIR=$(echo /tmp/extract/* | xargs -0 )
+	#echo "$DIR"
+	cd "$DIR"
+	FILES=( $(echo ./** | sed -e 's/\.\///g' | xargs) )
+
+	rm -rf "/opt/miners/$UPDATEMINER/*"
+	#echo "${FILES[@]}"
+	for f in "${FILES[@]}";do
+		if [ -d "$f" ];then
+			#echo "DEBUG: check if DIR $f exists"
+			mkdir -p "/opt/miners/$UPDATEMINER/$f"
+			dot
+		fi
+	done
+	for f in "${FILES[@]}";do
+		if [ -f "$f" ];then
+			#echo "DEBUG: copy file $f to /opt/miners/$UPDATEMINER/$f"
+			cp "$DIR/$f" "/opt/miners/$UPDATEMINER/$f"
+			dot
+		fi
+	done
+	rm -rf /tmp/extract/*
+}
+
+function f.cleanup(){
+	if [ "$RESETALLOW" = "1" ]; then
+		/opt/ethos/bin/allow >/dev/null 2>&1
+	fi
+	if [ ! -L /opt/miners/optiminer-zcash/optminer-zcash ]; then
+		ln -snf /opt/miners/optiminer-zcash/optiminer-equihash /opt/miners/optiminer-zcash/optiminer-zcash
+	fi
+	dot
+	chown -R ethos.ethos /opt/miners
+	if [ -f "/opt/miners/$UPDATEMINER/ethos-postinstall.sh" ]; then
+		/opt/miners/$UPDATEMINER/ethos-postinstall.sh
+	fi
+	service ethos-miner-monitor restart >/dev/null 2>&1
+	echo ""; echo "$(date -u) miner update finished on $HOSTNAME"
+}
+
+
+function f.getupdate(){
+	#echo "Downloading miner update package for $UPDATEMINER"
+	if [ ! -d "/opt/ethos-update/updates/$UPDATEMINER" ];then
+		if [ $MINERVERSION -ge 11 ];then
+			curl -s -o "/tmp/$UPDATEMINER.tar.gz" "$SERVER/miners/$UPDATEMINER/Claymore%27s%20Dual%20Ethereum%2BDecred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD%2BNVIDIA%20GPU%20Miner%20v$MINERVERSION%20-%20LINUX.tar.gz"  >/dev/null 2>&1
+		fi
+		if [ $MINERVERSION -ge 9.5 -a $MINERVERSION -lt 11 ];then
+			curl -s -o "/tmp/$UPDATEMINER.tar.gz" "$SERVER/miners/$UPDATEMINER/Claymore%27s%20Dual%20Ethereum%2BDecred_Siacoin_Lbry_Pascal%20AMD%2BNVIDIA%20GPU%20Miner%20v$MINERVERSION%20-%20LINUX.tar.gz"  >/dev/null 2>&1
+		fi
+		if [ "$?" = "0" ]; then
+			mkdir -p /tmp/extract
+			dot
+			tar xf "/tmp/$UPDATEMINER.tar.gz" -C /tmp/extract
+			dot
+			rm -f "/tmp/$UPDATEMINER.tar.gz"
+			f.installminer
+		else
+			echo "Download of $UPDATEMINER.tar.gz failed, stopping update process."
+			f.cleanup
+			exit 1
+		fi
+	fi
+}
+
+echo "$(date -u) Starting miner update $UPDATEMINER to $MINERVERSION on $HOSTNAME"
+
+f.mirrorselect
+f.getupdate
+f.cleanup
