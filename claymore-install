@@ -84,7 +84,7 @@ function f.installminer(){
 	dot
 	FILES=( $(echo ./** | sed -e 's/\.\///g' | xargs) )
 	dot
-	rm -rf "/opt/miners/$UPDATEMINER/*"
+	rm -rf /opt/miners/$UPDATEMINER/*
 	dot
 	#echo "${FILES[@]}"
 	for f in "${FILES[@]}";do
