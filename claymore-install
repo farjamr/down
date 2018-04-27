@@ -119,10 +119,10 @@ function f.cleanup(){
 function f.getupdate(){
 	#echo "Downloading miner update package for $UPDATEMINER"
 	if [ ! -d "/opt/ethos-update/updates/$UPDATEMINER" ];then
-		if [ $MINERVERSION -ge 11 ];then
+		if [ $MINERVERSION*10 -ge 110 ];then
 			curl -s -o "/tmp/$UPDATEMINER.tar.gz" "$SERVER/miners/$UPDATEMINER/Claymore%27s%20Dual%20Ethereum%2BDecred_Siacoin_Lbry_Pascal_Blake2s_Keccak%20AMD%2BNVIDIA%20GPU%20Miner%20v$MINERVERSION%20-%20LINUX.tar.gz"  >/dev/null 2>&1
 		fi
-		if [ $MINERVERSION -ge 9.5 -a $MINERVERSION -lt 11 ];then
+		if [ $MINERVERSION*10 -ge 95 -a $MINERVERSION*10 -lt 110 ];then
 			curl -s -o "/tmp/$UPDATEMINER.tar.gz" "$SERVER/miners/$UPDATEMINER/Claymore%27s%20Dual%20Ethereum%2BDecred_Siacoin_Lbry_Pascal%20AMD%2BNVIDIA%20GPU%20Miner%20v$MINERVERSION%20-%20LINUX.tar.gz"  >/dev/null 2>&1
 		fi
 		if [ "$?" = "0" ]; then
